@@ -6,7 +6,7 @@ from langchain_postgres.v2.async_vectorstore import AsyncPGVectorStore
 PG_CONN_STR = os.getenv("DATABASE_URL", "postgresql+asyncpg://postgres:postgres@localhost:5432/postgres")
 PG_ENGINE = PGEngine.from_connection_string(PG_CONN_STR)
 
-embeddings = OpenAIEmbeddings(model="text-embedding-3-small", dimensions=1024)
+embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
 
 
 async def get_vector_store() -> AsyncPGVectorStore:

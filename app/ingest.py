@@ -73,8 +73,18 @@ async def _create_index(store):
         m=16,
         ef_construction=64
     )
-    await store.aapply_vector_index(index, concurrently=True)
-    print("Index Created Succesfully")
+    try:
+        await store.aapply_vector_index(index, concurrently=True)
+        print("Index Created Successfully")
+    except Exception as e:
+        # The underlying DB may raise a duplicate-index/table error when the index already exists.
+        # Detect common duplicate messages and treat them as non-fatal so repeated ingests are idempotent.
+        msg = str(e).lower()
+        if "already exists" in msg or "duplicate" in msg or "duplicateobject" in msg:
+            print(f"Index already exists, skipping creation: {e}")
+        else:
+            # Re-raise unexpected errors so they are not silently swallowed.
+            raise
 
 
 async def run_ingest_async() -> dict:
@@ -86,4 +96,3 @@ async def run_ingest_async() -> dict:
     await _create_index(store)
 
     return {"documents": len(docs), "chunks": len(chunks)}
-
