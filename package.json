@@ -1,0 +1,32 @@
+{
+  "name": "intelligent-manufacturing-assistant-app",
+  "version": "0.2.0",
+  "description": "An autonomous AI-powered MFG decision engine.",
+  "private": true,
+  "license": "MIT",
+  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/javakishore-veleti/Agentic-Finance-Director-App.git"
+  },
+  "scripts": {
+    "---------- DOCKER INFRASTRUCTURE ----------": "",
+    "setup:local-docker-all-start": "bash DevOps/Local/docker-all-start.sh",
+    "setup:local-docker-all-shutdown": "bash DevOps/Local/docker-all-shutdown.sh",
+    "setup:local-docker-all-status": "bash DevOps/Local/docker-all-status.sh",
+    "setup:local-docker-all-destroy": "bash DevOps/Local/docker-all-destroy.sh",
+
+    "---------- PYTHON VENV ----------": "",
+    "venv:setup": "bash Project_Setup/Scripts/Backend/Services/00_python_venv_setup.sh",
+    "venv:verify": "VENV=$HOME/runtime_data/python_venvs/Intelligent-Mfg-Assistant_venv && $VENV/bin/python --version && $VENV/bin/pip list | grep -iE 'fastapi|pydantic|sqlalchemy|uvicorn|motor'",
+    "start:api": "uvicorn app.api:app --host 0.0.0.0 --port 8000 --reload",
+    "start": "npm run start:api"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
+}
